@@ -158,19 +158,20 @@ def main():
             df_cleaned[col] = encoder.fit_transform(df_cleaned[col])
             encoding_mappings[col] = dict(zip(encoder.classes_, encoder.transform(encoder.classes_)))
 
+
         df_cleaned['state_encoded'] = encoder.fit_transform(df_cleaned['state'])
         df_cleaned.drop(columns=['state'], inplace=True)
 
         num_categorical_cols = df_cleaned.select_dtypes(include=['object']).shape[1]
         num_numerical_cols = df_cleaned.select_dtypes(exclude=['object']).shape[1]
 
-        additional_label_cols = ['name', 'ingredients', 'Based']
+        additional_label_cols = ['name', 'ingredients', 'cooking method']
 
         encoder = LabelEncoder()
         for col in additional_label_cols:
             df_cleaned[col] = encoder.fit_transform(df_cleaned[col])
 
-        target_variables = ['diet','region', 'meal type', 'nutrition quality','flavor_profile','pregnancy-friendly','Based', 'diabetic-friendly']
+        target_variables = ['diet','region', 'meal type', 'nutrition quality','pregnancy-friendly', 'diabetic-friendly']
 
         y = df_cleaned[target_variables]
         X = df_cleaned[['name','ingredients','cooking method']]
